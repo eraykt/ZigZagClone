@@ -14,7 +14,7 @@ public class GameManager : Singleton<GameManager>
     {
         if (!PlayerInputs.LeftClick) return;
         if (IsGameStarted) return;
-        
+
         IsGameStarted = true;
         UiActions.Instance.HandleHomeUi?.Invoke(false);
     }
