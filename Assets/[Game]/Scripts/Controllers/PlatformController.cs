@@ -17,7 +17,8 @@ namespace ZigZagClone.Controllers
         {
             yield return new WaitForSeconds(0.5f);
 
-            Debug.Log("You have completed the level!");
+            GameManager.Instance.OnLevelEnded(true);
+            //TODO: Win ui
 
             yield return null;
         }
