@@ -7,7 +7,7 @@ namespace ZigZagClone.Controllers
     {
         [SerializeField] private float movingSpeed = 2f;
 
-        private PlayerEnums eDirection = PlayerEnums.Right;
+        private PlayerEnums directionEnum = PlayerEnums.Forward;
 
         private PlayerMovement playerMover;
 
@@ -28,11 +28,12 @@ namespace ZigZagClone.Controllers
 
         private void DirectionControl()
         {
+            if (!GameManager.Instance.IsGameStarted) return;
             if (!PlayerInputs.ChangeDirection) return;
+            
+            directionEnum = directionEnum == PlayerEnums.Right ? PlayerEnums.Forward : PlayerEnums.Right;
 
-            eDirection = eDirection == PlayerEnums.Right ? PlayerEnums.Forward : PlayerEnums.Right;
-
-            switch (eDirection)
+            switch (directionEnum)
             {
                 case PlayerEnums.Right:
                     playerMover.SetDirection(transform.right);

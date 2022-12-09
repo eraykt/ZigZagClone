@@ -1,5 +1,3 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 namespace ZigZagClone.Movements
@@ -14,7 +12,6 @@ namespace ZigZagClone.Movements
         {
             this.speed = speed;
             this.playerTransform = playerTransform;
-            direction = playerTransform.right;
         }
 
         public void SetDirection(Vector3 newDirection)
@@ -29,6 +26,8 @@ namespace ZigZagClone.Movements
 
         public void Move()
         {
+            if (!GameManager.Instance.IsGameStarted) return;
+
             playerTransform.Translate(direction * (speed * Time.deltaTime));
         }
     }

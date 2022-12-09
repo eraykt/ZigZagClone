@@ -1,6 +1,8 @@
 using UnityEngine;
 
-public class PlayerInputs
+public static class PlayerInputs
 {
-    public static bool ChangeDirection => Input.GetMouseButtonDown(0);
+    public static bool LeftClick => Input.GetMouseButtonDown(0);
+
+    public static bool ChangeDirection => LeftClick;
 }
