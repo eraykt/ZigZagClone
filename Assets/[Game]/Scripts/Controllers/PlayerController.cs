@@ -54,6 +54,7 @@ namespace ZigZagClone.Controllers
         private void DirectionControl()
         {
             if (!GameManager.Instance.IsGameStarted) return;
+            if (GameManager.Instance.IsGameEnded) return;
             if (!PlayerInputs.ChangeDirection) return;
 
             directionEnum = directionEnum == PlayerEnums.Right ? PlayerEnums.Forward : PlayerEnums.Right;
