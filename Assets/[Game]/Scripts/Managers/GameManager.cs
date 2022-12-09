@@ -23,7 +23,7 @@ public class GameManager : Singleton<GameManager>
 
     public void OnLevelEnded(bool hasWon)
     {
-        IsGameStarted = false;
+        // IsGameStarted = false;
         IsGameEnded = true;
         
         if (hasWon)

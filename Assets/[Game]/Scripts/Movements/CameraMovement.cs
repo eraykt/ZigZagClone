@@ -6,9 +6,9 @@ namespace ZigZagClone.Movements
     {
         public Transform target;
 
-        public Vector3 offset;
+        private Vector3 offset;
 
-        public float smoothSpeed = 3f;
+        [SerializeField] private float smoothSpeed = 3f;
 
         private void Start()
         {
@@ -20,8 +20,10 @@ namespace ZigZagClone.Movements
             SmoothFollow();
         }
 
-        public void SmoothFollow()
+        private void SmoothFollow()
         {
+            if (GameManager.Instance.IsGameEnded) return;
+
             Vector3 targetPos = target.position + offset;
             Vector3 smoothFollow = Vector3.Lerp(transform.position,
                 targetPos, smoothSpeed * Time.deltaTime);
