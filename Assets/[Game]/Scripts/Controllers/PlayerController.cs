@@ -70,7 +70,8 @@ namespace ZigZagClone.Controllers
             //     if (hit.collider.CompareTag("Cube"))
             //         return;
 
-            var isFalling = rig.velocity.y < -0.5f;
+            // var isFalling = rig.velocity.y < -0.5f;
+            var isFalling = transform.position.y < 0.6f;
             if (isFalling)
                 GameManager.Instance.OnLevelEnded(false);
         }

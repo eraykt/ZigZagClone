@@ -33,7 +33,7 @@ public class GameManager : Singleton<GameManager>
 
         if (hasWon)
         {
-            Debug.Log("tebriks");
+            UiActions.Instance.HandleWinGameUi?.Invoke(true);
         }
 
         else
