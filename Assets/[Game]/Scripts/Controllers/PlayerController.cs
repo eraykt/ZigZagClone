@@ -11,8 +11,8 @@ namespace ZigZagClone.Controllers
         private float movingSpeed = 2f;
 
         [Range(5f, 10f)] [SerializeField] private float speedUpFactor = 10f;
-        [Space] private float speed;
-        private PlayerEnums directionEnum = PlayerEnums.Right;
+        public float CurrentSpeed { get; private set; }
+        [Space] private PlayerEnums directionEnum = PlayerEnums.Right;
         private PlayerMovement playerMover;
 
         #endregion
@@ -33,7 +33,7 @@ namespace ZigZagClone.Controllers
 
         private void Start()
         {
-            speed = movingSpeed;
+            CurrentSpeed = movingSpeed;
         }
 
         private void Update()
@@ -56,8 +56,8 @@ namespace ZigZagClone.Controllers
             if (!GameManager.Instance.IsGameStarted) return;
             if (GameManager.Instance.IsGameEnded) return;
 
-            speed += Time.deltaTime / speedUpFactor;
-            playerMover.SetSpeed(speed);
+            CurrentSpeed += Time.deltaTime / speedUpFactor;
+            playerMover.SetSpeed(CurrentSpeed);
         }
 
         private void GroundControl()

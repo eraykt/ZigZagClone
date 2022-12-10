@@ -2445,6 +2445,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2293376497054803435, guid: 2209e1302059de6428a48639ae3aa0df,
         type: 3}
+      propertyPath: movingSpeed
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2293376497054803435, guid: 2209e1302059de6428a48639ae3aa0df,
+        type: 3}
       propertyPath: RaycastPoint
       value: 
       objectReference: {fileID: 532007457}

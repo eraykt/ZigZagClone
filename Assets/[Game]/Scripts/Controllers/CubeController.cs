@@ -15,9 +15,14 @@ namespace ZigZagClone.Controllers
         {
             if (other.gameObject.CompareTag("Player"))
             {
-                rig.useGravity = true;
-                rig.isKinematic = false;
-            }            
+                Invoke(nameof(DropCube), 0.75f - other.gameObject.GetComponent<PlayerController>().CurrentSpeed / 10f);
+            }
+        }
+
+        private void DropCube()
+        {
+            rig.useGravity = true;
+            rig.isKinematic = false;
         }
     }
 }
