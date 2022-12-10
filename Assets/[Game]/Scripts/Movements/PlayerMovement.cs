@@ -12,6 +12,7 @@ namespace ZigZagClone.Movements
         {
             this.speed = speed;
             this.playerTransform = playerTransform;
+            SetDirection(playerTransform.right);
         }
 
         public void SetDirection(Vector3 newDirection)
