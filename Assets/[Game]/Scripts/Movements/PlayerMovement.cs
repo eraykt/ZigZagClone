@@ -10,19 +10,19 @@ namespace ZigZagClone.Movements
 
         public PlayerMovement(float speed, Transform playerTransform)
         {
-            this.speed = speed;
             this.playerTransform = playerTransform;
+            SetSpeed(speed);
             SetDirection(playerTransform.right);
         }
 
         public void SetDirection(Vector3 newDirection)
         {
-            this.direction = newDirection;
+            direction = newDirection;
         }
 
         public void SetSpeed(float newSpeed)
         {
-            this.speed = newSpeed;
+            speed = newSpeed;
         }
 
         public void Move()

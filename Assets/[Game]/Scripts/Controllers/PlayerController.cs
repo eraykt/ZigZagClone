@@ -7,7 +7,11 @@ namespace ZigZagClone.Controllers
     {
         #region Player Movement Variables
 
-        [SerializeField] private float movingSpeed = 2f;
+        [Header("Speed Variables")] [Range(2f, 5f)] [SerializeField]
+        private float movingSpeed = 2f;
+
+        [Range(5f, 10f)] [SerializeField] private float speedUpFactor = 10f;
+        [Space] private float speed;
         private PlayerEnums directionEnum = PlayerEnums.Right;
         private PlayerMovement playerMover;
 
@@ -27,15 +31,33 @@ namespace ZigZagClone.Controllers
             rig = GetComponent<Rigidbody>();
         }
 
+        private void Start()
+        {
+            speed = movingSpeed;
+        }
+
         private void Update()
         {
             DirectionControl();
+
             GroundControl();
+
+            SpeedUpControl();
         }
+
 
         private void FixedUpdate()
         {
             playerMover.Move();
+        }
+
+        private void SpeedUpControl()
+        {
+            if (!GameManager.Instance.IsGameStarted) return;
+            if (GameManager.Instance.IsGameEnded) return;
+
+            speed += Time.deltaTime / speedUpFactor;
+            playerMover.SetSpeed(speed);
         }
 
         private void GroundControl()
@@ -59,6 +81,8 @@ namespace ZigZagClone.Controllers
             if (!GameManager.Instance.IsGameStarted) return;
             if (GameManager.Instance.IsGameEnded) return;
             if (!PlayerInputs.ChangeDirection) return;
+
+            ScoreManager.Instance.SetScore("click", 1);
 
             directionEnum = directionEnum == PlayerEnums.Right ? PlayerEnums.Forward : PlayerEnums.Right;
 
