@@ -36,10 +36,10 @@ namespace ZigZagClone.Ui
         {
             if (animator.GetCurrentAnimatorStateInfo(0).IsTag("anim")) return;
             if (isUiUpdated) return;
-            
+
             if (updateUiCoroutine == null)
                 updateUiCoroutine = StartCoroutine(ScoreUpdater());
-            
+
             if (PlayerInputs.LeftClick && updateUiCoroutine != null)
             {
                 StopCoroutine(updateUiCoroutine);
@@ -72,6 +72,12 @@ namespace ZigZagClone.Ui
                     coinText.text = coinCount.ToString();
                     yield return new WaitForSeconds(0.2f);
                 }
+                else if (ScoreManager.Instance.Coin == 0)
+                {
+                    coinText.text = coinCount.ToString();
+                    break;
+                }
+
                 else break;
             }
 
@@ -83,7 +89,12 @@ namespace ZigZagClone.Ui
                     diamondText.text = diamondCount.ToString();
                     yield return new WaitForSeconds(0.2f);
                 }
-
+                else if (ScoreManager.Instance.Diamond == 0)
+                {
+                    diamondText.text = diamondCount.ToString();
+                    break;
+                }
+                
                 else
                 {
                     StopCoroutine(ScoreUpdater());
