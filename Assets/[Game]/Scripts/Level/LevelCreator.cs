@@ -13,7 +13,8 @@ namespace ZigZagClone.Level
 
         [Space] public List<LevelInformation> levels = new List<LevelInformation>();
 
-        public Queue<CubeController> RecycledCubes = new Queue<CubeController>();
+        public Queue<CubeController> Cubes = new Queue<CubeController>();
+        private Queue<CubeController> recycledCubes = new Queue<CubeController>();
 
         [HideInInspector] public int currentLevelIndex = -2;
 
@@ -23,30 +24,28 @@ namespace ZigZagClone.Level
         }
 
 
-        public void CreateLevelObjects()
+        private void CreateLevelObjects()
         {
-            Queue<CubeController> cubes = new Queue<CubeController>();
-
             var startingPlatform =
                 Instantiate(startPlatformPrefab, Vector3.zero, startPlatformPrefab.transform.rotation);
-            cubes.Enqueue(startingPlatform);
+            Cubes.Enqueue(startingPlatform);
 
             for (int i = 0; i < 20; i++)
             {
                 var cube = Instantiate(cubePrefab, Vector3.zero, cubePrefab.transform.rotation);
-                cubes.Enqueue(cube);
+                Cubes.Enqueue(cube);
             }
 
             var endingPlatform = Instantiate(endPlatformPrefab, Vector3.zero, endPlatformPrefab.transform.rotation);
-            cubes.Enqueue(endingPlatform);
+            Cubes.Enqueue(endingPlatform);
 
-            CreateLevel(cubes, 0);
+            CreateLevel(0);
         }
 
-        public void CreateLevel(Queue<CubeController> cubes, int levelIndex)
+        public void CreateLevel(int levelIndex)
         {
             currentLevelIndex++;
-            var startingPlatform = cubes.Dequeue();
+            var startingPlatform = Cubes.Dequeue();
 
             startingPlatform.transform.position = Vector3.zero;
 
@@ -59,7 +58,7 @@ namespace ZigZagClone.Level
                 transform = { parent = transform }
             };
 
-            var count = cubes.Count;
+            var count = Cubes.Count;
 
             startingPlatform.transform.parent = p.transform;
 
@@ -69,7 +68,7 @@ namespace ZigZagClone.Level
                 var zigZag = random <= levels[levelIndex].zigZagRatio;
 
 
-                var cube = cubes.Dequeue();
+                var cube = Cubes.Dequeue();
 
                 switch (zigZag)
                 {
@@ -98,31 +97,43 @@ namespace ZigZagClone.Level
                 lastPos = cube.transform.position;
             }
 
-            var endingPlatform = cubes.Dequeue();
+            var endingPlatform = Cubes.Dequeue();
             endingPlatform.transform.position =
                 new Vector3(lastPos.x + 3, 0, lastPos.z + 2);
 
             endingPlatform.transform.parent = p.transform;
         }
-
+        
         public void RecycleCube(CubeController cube, Rigidbody rig)
         {
-            RecycledCubes.Enqueue(cube);
+            if (!cube.gameObject.tag.Equals("Cube")) return;
+                
+            recycledCubes.Enqueue(cube);
             rig.useGravity = false;
             rig.isKinematic = true;
             rig.velocity = Vector3.zero;
         }
-
+        
         public void ResetAllCubes()
         {
-            RecycledCubes.Clear();
+            Cubes.Clear();
             foreach (Transform cube in transform.GetChild(transform.childCount - 1))
             {
                 cube.GetComponent<CubeController>().StopAllCoroutines();
-                RecycleCube(cube.gameObject.GetComponent<CubeController>(), cube.GetComponent<Rigidbody>());
+                ResetCube(cube.gameObject.GetComponent<CubeController>(), cube.GetComponent<Rigidbody>());
             }
         }
+        
+        private void ResetCube(CubeController cube, Rigidbody rig)
+        {
+            Cubes.Enqueue(cube);
+            rig.useGravity = false;
+            rig.isKinematic = true;
+            rig.velocity = Vector3.zero;
+        }
     }
+    
+    
 
 
     [System.Serializable]

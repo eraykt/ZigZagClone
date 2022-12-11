@@ -2859,11 +2859,11 @@ MonoBehaviour:
     type: 3}
   levels:
   - cubeCount: 20
-    zigZagRatio: 50
+    zigZagRatio: 20
     coinCount: 0
     diamondCount: 0
-  - cubeCount: 10
-    zigZagRatio: 0
+  - cubeCount: 30
+    zigZagRatio: 25
     coinCount: 0
     diamondCount: 0
   - cubeCount: 10

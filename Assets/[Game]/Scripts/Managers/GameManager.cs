@@ -76,13 +76,15 @@ public class GameManager : Singleton<GameManager>
     public void RestartGame()
     {
         ResetGame();
-        LevelCreator.Instance.CreateLevel(LevelCreator.Instance.RecycledCubes ,LevelIndex);
+        LevelCreator.Instance.CreateLevel(LevelIndex);
         ScoreManager.Instance.ResetCurrentScore();
     }
 
     
-
     public void NextLevel()
     {
+        ResetGame();
+        LevelIndex++;
+        
     }
 }
