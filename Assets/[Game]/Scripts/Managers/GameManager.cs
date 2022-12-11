@@ -7,6 +7,8 @@ public class GameManager : Singleton<GameManager>
     public bool IsGameStarted { get; private set; }
     public bool IsGameEnded { get; private set; }
 
+    public int LevelIndex { get; set; }
+    
     private void Update()
     {
         OnGameStarting();
@@ -26,7 +28,7 @@ public class GameManager : Singleton<GameManager>
 
     public void OnLevelEnded(bool hasWon)
     {
-        // IsGameStarted = false;
+        IsGameStarted = false;
         IsGameEnded = true;
 
         UiActions.Instance.HandleInGameUi?.Invoke(false);
@@ -38,7 +40,7 @@ public class GameManager : Singleton<GameManager>
 
         else
         {
-            Debug.Log("maalesef");
+            UiActions.Instance.HandleLoseGameUi?.Invoke(true);
         }
     }
 }

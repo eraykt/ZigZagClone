@@ -16,12 +16,16 @@ namespace ZigZagClone.Actions
         public System.Action<bool> HandleWinGameUi;
         public WinGameUI winGameUi;
 
+        public System.Action<bool> HandleLoseGameUi;
+        public LoseGameUI loseGameUi;
+
         private void OnEnable()
         {
             HandleHomeUi += HomeUiHandler;
             HandleInGameUi += InGameUiHandler;
             SetScoreHandler += SetScoreToUi;
             HandleWinGameUi += WinGameUiHandler;
+            HandleLoseGameUi += LoseGameUiHandler;
         }
 
 
@@ -31,6 +35,12 @@ namespace ZigZagClone.Actions
             HandleInGameUi -= InGameUiHandler;
             SetScoreHandler -= SetScoreToUi;
             HandleWinGameUi -= WinGameUiHandler;
+            HandleLoseGameUi -= LoseGameUiHandler;
+        }
+
+        private void LoseGameUiHandler(bool active)
+        {
+            loseGameUi.gameObject.SetActive(active);
         }
 
         private void SetScoreToUi(string scoreType, int score)
