@@ -3759,24 +3759,29 @@ MonoBehaviour:
   cubePrefab: {fileID: 2460276099290369079, guid: 531bbdc8e71acc549bde7685f656d879,
     type: 3}
   levels:
-  - levelIndex: 1
-    cubeCount: 100
+  - levelIndex: 0
+    cubeCount: 10
+    zigZagRatio: 20
     coinCount: 0
     diamondCount: 0
   - levelIndex: 1
     cubeCount: 10
+    zigZagRatio: 0
     coinCount: 0
     diamondCount: 0
   - levelIndex: 1
     cubeCount: 10
+    zigZagRatio: 0
     coinCount: 0
     diamondCount: 0
   - levelIndex: 1
     cubeCount: 10
+    zigZagRatio: 0
     coinCount: 0
     diamondCount: 0
   - levelIndex: 1
     cubeCount: 10
+    zigZagRatio: 0
     coinCount: 0
     diamondCount: 0
 --- !u!1 &1604915716
@@ -5308,6 +5313,11 @@ PrefabInstance:
       propertyPath: raycastPoint
       value: 
       objectReference: {fileID: 532007457}
+    - target: {fileID: 2293376497054803435, guid: 2209e1302059de6428a48639ae3aa0df,
+        type: 3}
+      propertyPath: speedUpFactor
+      value: 10
+      objectReference: {fileID: 0}
     - target: {fileID: 2293376497054803435, guid: 2209e1302059de6428a48639ae3aa0df,
         type: 3}
       propertyPath: raycastPosition

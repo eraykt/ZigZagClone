@@ -43,18 +43,36 @@ namespace ZigZagClone.Level
             startingPlatform.transform.position = Vector3.zero;
             var lastPos = new Vector3(3, 0, 2);
 
+            bool isRight = true;
+
             for (int i = 1; i <= levels[levelIndex].cubeCount; i++)
             {
-                var random = Random.Range(0, 2);
+                var random = Random.Range(0, 101);
+                var zigZag = random <= levels[levelIndex].zigZagRatio;
+
+
                 var cube = cubes.Dequeue();
 
-                switch (random)
+                switch (zigZag)
                 {
-                    case 0:
-                        cube.transform.position = new Vector3(lastPos.x + 1, lastPos.y, lastPos.z);
+                    case true:
+                        if (isRight)
+                            cube.transform.position = new Vector3(lastPos.x, lastPos.y, lastPos.z + 1);
+
+                        else
+                            cube.transform.position = new Vector3(lastPos.x + 1, lastPos.y, lastPos.z);
+
+                        isRight = !isRight;
+
                         break;
-                    case 1:
-                        cube.transform.position = new Vector3(lastPos.x, 0, lastPos.z + 1);
+
+                    case false:
+                        if (isRight)
+                            cube.transform.position = new Vector3(lastPos.x + 1, 0, lastPos.z);
+
+                        else
+                            cube.transform.position = new Vector3(lastPos.x, 0, lastPos.z + 1);
+
                         break;
                 }
 
@@ -70,8 +88,8 @@ namespace ZigZagClone.Level
     [System.Serializable]
     public class LevelInformation
     {
-        public int levelIndex;
         [Space] public int cubeCount;
+        [Range(0, 100)] public int zigZagRatio;
         public int coinCount;
         public int diamondCount;
     }

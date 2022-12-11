@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace ZigZagClone.Controllers
@@ -11,12 +12,12 @@ namespace ZigZagClone.Controllers
             rig = GetComponent<Rigidbody>();
         }
 
-        private void OnCollisionExit(Collision other)
+
+        protected virtual void OnCollisionExit(Collision other)
         {
             if (other.gameObject.CompareTag("Player"))
             {
                 Invoke(nameof(DropCube), 0.75f - other.gameObject.GetComponent<PlayerController>().CurrentSpeed / 10f);
-                Destroy(gameObject, 2f);
             }
         }
 

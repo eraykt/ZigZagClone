@@ -28,7 +28,7 @@ public class GameManager : Singleton<GameManager>
 
     public void OnLevelEnded(bool hasWon)
     {
-        IsGameStarted = false;
+        // IsGameStarted = false;
         IsGameEnded = true;
 
         UiActions.Instance.HandleInGameUi?.Invoke(false);

@@ -12,6 +12,15 @@ namespace ZigZagClone.Controllers
                 Invoke(nameof(WinGame), 0.5f);
         }
 
+
+        protected override void OnCollisionExit(Collision other)
+        {
+            base.OnCollisionExit(other);
+
+            if (other.gameObject.CompareTag("Player"))
+                Destroy(gameObject, 2f);
+        }
+
         private void WinGame()
         {
             GameManager.Instance.OnLevelEnded(true);
