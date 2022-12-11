@@ -1,4 +1,4 @@
-using System;
+using System.Collections;
 using UnityEngine;
 using ZigZagClone.Level;
 
@@ -26,7 +26,16 @@ namespace ZigZagClone.Controllers
         {
             rig.useGravity = true;
             rig.isKinematic = false;
-            LevelCreator.Instance.RecycleCube(this, rig);
+            StartCoroutine(RecycleCube());
         }
+
+        private IEnumerator RecycleCube()
+        {
+            yield return new WaitForSeconds(2f);
+            LevelCreator.Instance.RecycleCube(this, rig);
+            yield return null;
+        }
+        
+        
     }
 }

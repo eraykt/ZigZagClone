@@ -50,7 +50,7 @@ namespace ZigZagClone.Level
 
             startingPlatform.transform.position = Vector3.zero;
 
-            var lastPos = new Vector3(3, 0, 2);
+            var lastPos = new Vector3(2, 0, 2);
 
             bool isRight = true;
 
@@ -100,7 +100,7 @@ namespace ZigZagClone.Level
 
             var endingPlatform = cubes.Dequeue();
             endingPlatform.transform.position =
-                new Vector3(lastPos.x + 4, 0, lastPos.z + 2);
+                new Vector3(lastPos.x + 3, 0, lastPos.z + 2);
 
             endingPlatform.transform.parent = p.transform;
         }
@@ -118,6 +118,7 @@ namespace ZigZagClone.Level
             RecycledCubes.Clear();
             foreach (Transform cube in transform.GetChild(transform.childCount - 1))
             {
+                cube.GetComponent<CubeController>().StopAllCoroutines();
                 RecycleCube(cube.gameObject.GetComponent<CubeController>(), cube.GetComponent<Rigidbody>());
             }
         }
