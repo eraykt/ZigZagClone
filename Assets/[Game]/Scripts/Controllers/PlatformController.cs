@@ -1,4 +1,3 @@
-using System.Collections;
 using UnityEngine;
 
 namespace ZigZagClone.Controllers
@@ -10,17 +9,12 @@ namespace ZigZagClone.Controllers
         private void OnCollisionEnter(Collision collision)
         {
             if (collision.gameObject.CompareTag("Player") && isFinishPlatform)
-                StartCoroutine(WinGame());
+                Invoke(nameof(WinGame), 0.5f);
         }
 
-        private IEnumerator WinGame()
+        private void WinGame()
         {
-            yield return new WaitForSeconds(0.5f);
-
             GameManager.Instance.OnLevelEnded(true);
-            //TODO: Win ui
-
-            yield return null;
         }
     }
 }

@@ -16,19 +16,10 @@ namespace ZigZagClone.Controllers
         private PlayerMovement playerMover;
 
         #endregion
-
-        #region Ground Check Variables
-
-        // private RaycastHit hit;
-        // [SerializeField] private Transform raycastPosition;
-        private Rigidbody rig;
-
-        #endregion
-
+        
         private void Awake()
         {
             playerMover = new PlayerMovement(movingSpeed, transform);
-            rig = GetComponent<Rigidbody>();
         }
 
         private void Start()
@@ -64,14 +55,9 @@ namespace ZigZagClone.Controllers
         {
             if (!GameManager.Instance.IsGameStarted) return;
             if (GameManager.Instance.IsGameEnded) return;
-
-
-            // if (Physics.Raycast(raycastPosition.position, -raycastPosition.transform.up, out hit, 1f))
-            //     if (hit.collider.CompareTag("Cube"))
-            //         return;
-
-            // var isFalling = rig.velocity.y < -0.5f;
+            
             var isFalling = transform.position.y < 0.6f;
+            
             if (isFalling)
                 GameManager.Instance.OnLevelEnded(false);
         }

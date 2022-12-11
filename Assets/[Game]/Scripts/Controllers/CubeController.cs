@@ -16,6 +16,7 @@ namespace ZigZagClone.Controllers
             if (other.gameObject.CompareTag("Player"))
             {
                 Invoke(nameof(DropCube), 0.75f - other.gameObject.GetComponent<PlayerController>().CurrentSpeed / 10f);
+                Destroy(gameObject, 2f);
             }
         }
 

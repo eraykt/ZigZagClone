@@ -4,9 +4,9 @@ using ZigZagClone.Actions;
 
 public class ScoreManager : Singleton<ScoreManager>
 {
-    public int ClickPoint { get; set; }
-    public int Coin { get; set; }
-    public int Diamond { get; set; }
+    public int ClickPoint { get; private set; }
+    public int Coin { get; private set; }
+    public int Diamond { get; private set; }
 
 
     public void SetScore(string scoreType, int score)
