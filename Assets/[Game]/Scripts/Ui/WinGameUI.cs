@@ -44,9 +44,9 @@ namespace ZigZagClone.Ui
             {
                 StopCoroutine(updateUiCoroutine);
 
-                clickText.text = ScoreManager.Instance.ClickPoint.ToString();
-                coinText.text = ScoreManager.Instance.Coin.ToString();
-                diamondText.text = ScoreManager.Instance.Diamond.ToString();
+                clickText.text = ScoreManager.Instance.CurrentClickPoint.ToString();
+                coinText.text = ScoreManager.Instance.CurrentCoin.ToString();
+                diamondText.text = ScoreManager.Instance.CurrentDiamond.ToString();
                 isUiUpdated = true;
             }
         }
@@ -55,7 +55,7 @@ namespace ZigZagClone.Ui
         {
             while (true)
             {
-                if (clickCount < ScoreManager.Instance.ClickPoint)
+                if (clickCount < ScoreManager.Instance.CurrentClickPoint)
                 {
                     clickCount++;
                     clickText.text = clickCount.ToString();
@@ -66,13 +66,13 @@ namespace ZigZagClone.Ui
 
             while (true)
             {
-                if (coinCount < ScoreManager.Instance.Coin)
+                if (coinCount < ScoreManager.Instance.CurrentCoin)
                 {
                     coinCount++;
                     coinText.text = coinCount.ToString();
                     yield return new WaitForSeconds(0.2f);
                 }
-                else if (ScoreManager.Instance.Coin == 0)
+                else if (ScoreManager.Instance.CurrentCoin == 0)
                 {
                     coinText.text = coinCount.ToString();
                     break;
@@ -83,13 +83,13 @@ namespace ZigZagClone.Ui
 
             while (true)
             {
-                if (diamondCount < ScoreManager.Instance.Diamond)
+                if (diamondCount < ScoreManager.Instance.CurrentDiamond)
                 {
                     diamondCount++;
                     diamondText.text = diamondCount.ToString();
                     yield return new WaitForSeconds(0.2f);
                 }
-                else if (ScoreManager.Instance.Diamond == 0)
+                else if (ScoreManager.Instance.CurrentDiamond == 0)
                 {
                     diamondText.text = diamondCount.ToString();
                     break;
@@ -106,11 +106,6 @@ namespace ZigZagClone.Ui
         public void NextLevel()
         {
             Debug.Log("next level is on the way");
-        }
-
-        public void RestartLevel()
-        {
-            Debug.Log("restart level is on the way");
         }
     }
 }

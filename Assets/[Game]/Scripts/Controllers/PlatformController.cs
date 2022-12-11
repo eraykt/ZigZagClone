@@ -17,8 +17,8 @@ namespace ZigZagClone.Controllers
         {
             base.OnCollisionExit(other);
 
-            if (other.gameObject.CompareTag("Player"))
-                Destroy(gameObject, 2f);
+            // if (other.gameObject.CompareTag("Player"))
+            //     Destroy(gameObject, 2f);
         }
 
         private void WinGame()

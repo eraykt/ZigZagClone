@@ -1,5 +1,6 @@
 using System;
 using UnityEngine;
+using ZigZagClone.Level;
 
 namespace ZigZagClone.Controllers
 {
@@ -25,6 +26,7 @@ namespace ZigZagClone.Controllers
         {
             rig.useGravity = true;
             rig.isKinematic = false;
+            LevelCreator.Instance.RecycleCube(this, rig);
         }
     }
 }

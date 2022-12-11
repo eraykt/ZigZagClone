@@ -16,10 +16,10 @@ namespace ZigZagClone.Ui
             //TODO: resume game
         }
 
-        public void NoAd()
+        public void NoAd(bool closeAdPanel)
         {
-            adPanel.gameObject.SetActive(false);
-            losePanel.gameObject.SetActive(true);
+            adPanel.gameObject.SetActive(!closeAdPanel);
+            losePanel.gameObject.SetActive(closeAdPanel);
         }
 
         #endregion
@@ -34,8 +34,8 @@ namespace ZigZagClone.Ui
         
         public void Restart()
         {
-            //TODO: level manager
-            
+            GameManager.Instance.RestartGame();
+            NoAd(false);
         }
         
         #endregion

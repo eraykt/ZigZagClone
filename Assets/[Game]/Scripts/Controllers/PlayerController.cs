@@ -17,6 +17,8 @@ namespace ZigZagClone.Controllers
 
         #endregion
         
+        private const float PlayerPositionY = 0.6872291f;
+
         private void Awake()
         {
             playerMover = new PlayerMovement(movingSpeed, transform);
@@ -56,7 +58,7 @@ namespace ZigZagClone.Controllers
             if (!GameManager.Instance.IsGameStarted) return;
             if (GameManager.Instance.IsGameEnded) return;
             
-            var isFalling = transform.position.y < 0.6f;
+            var isFalling = transform.position.y < 0.65f;
             
             if (isFalling)
                 GameManager.Instance.OnLevelEnded(false);
@@ -82,6 +84,14 @@ namespace ZigZagClone.Controllers
                     playerMover.SetDirection(transform.forward);
                     break;
             }
+        }
+
+        public void ResetPlayer()
+        {
+            transform.position = new Vector3(0, PlayerPositionY, 0);
+            directionEnum = PlayerEnums.Right;
+            playerMover.SetDirection(transform.right);
+            CurrentSpeed = movingSpeed;
         }
     }
 }
