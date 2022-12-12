@@ -12,6 +12,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: EndingPlatform
       objectReference: {fileID: 0}
+    - target: {fileID: 2189184542378944135, guid: 429bd732ba496774c989e9b465f5f17a,
+        type: 3}
+      propertyPath: m_TagString
+      value: Finish
+      objectReference: {fileID: 0}
     - target: {fileID: 2189184542378944155, guid: 429bd732ba496774c989e9b465f5f17a,
         type: 3}
       propertyPath: m_RootOrder

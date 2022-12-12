@@ -1,139 +1,123 @@
 using System.Collections.Generic;
 using UnityEngine;
 using ZigZagClone.Controllers;
-using Random = UnityEngine.Random;
+using kechigames.Singleton;
 
 namespace ZigZagClone.Level
 {
-    public class LevelCreator : kechigames.Singleton.Singleton<LevelCreator>
+    public class LevelCreator : Singleton<LevelCreator>
     {
+        #region Prefabs
+
         [Header("Prefabs")] public PlatformController startPlatformPrefab;
         public PlatformController endPlatformPrefab;
         public CubeController cubePrefab;
 
+        #endregion
+
         [Space] public List<LevelInformation> levels = new List<LevelInformation>();
 
-        public Queue<CubeController> Cubes = new Queue<CubeController>();
+        private Queue<CubeController> cubes = new Queue<CubeController>();
         private Queue<CubeController> recycledCubes = new Queue<CubeController>();
 
-        [HideInInspector] public int currentLevelIndex = -2;
+        private PlatformController startPlatform, endPlatform;
+
+        private CubePlacer cubePlacer;
+
+        private int firstLevelsCubeCount;
+
+        protected override void Awake()
+        {
+            base.Awake();
+            cubePlacer = new CubePlacer(levels[GameManager.Instance.LevelIndex].cubeCount);
+        }
 
         private void Start()
         {
+            firstLevelsCubeCount = levels[0].cubeCount;
             CreateLevelObjects();
         }
 
 
         private void CreateLevelObjects()
         {
-            var startingPlatform =
+            startPlatform =
                 Instantiate(startPlatformPrefab, Vector3.zero, startPlatformPrefab.transform.rotation);
-            Cubes.Enqueue(startingPlatform);
 
             for (int i = 0; i < 20; i++)
             {
                 var cube = Instantiate(cubePrefab, Vector3.zero, cubePrefab.transform.rotation);
-                Cubes.Enqueue(cube);
+                cubes.Enqueue(cube);
             }
 
-            var endingPlatform = Instantiate(endPlatformPrefab, Vector3.zero, endPlatformPrefab.transform.rotation);
-            Cubes.Enqueue(endingPlatform);
-
+            endPlatform = Instantiate(endPlatformPrefab, Vector3.zero, endPlatformPrefab.transform.rotation);
+            endPlatform.gameObject.SetActive(false);
             CreateLevel(0);
         }
 
         public void CreateLevel(int levelIndex)
         {
-            currentLevelIndex++;
-            var startingPlatform = Cubes.Dequeue();
-
-            startingPlatform.transform.position = Vector3.zero;
-
-            var lastPos = new Vector3(2, 0, 2);
-
-            bool isRight = true;
-
             GameObject p = new GameObject("Level " + levelIndex)
             {
                 transform = { parent = transform }
             };
 
-            var count = Cubes.Count;
+            cubePlacer.PlaceStartingPlatform(startPlatform, p.transform);
 
-            startingPlatform.transform.parent = p.transform;
+            var count = cubes.Count;
+            var ratio = levels[levelIndex].zigZagRatio;
 
-            for (int i = 1; i < count; i++)
+            for (int i = 0; i < count; i++)
             {
-                var random = Random.Range(0, 101);
-                var zigZag = random <= levels[levelIndex].zigZagRatio;
-
-
-                var cube = Cubes.Dequeue();
-
-                switch (zigZag)
-                {
-                    case true:
-                        if (isRight)
-                            cube.transform.position = new Vector3(lastPos.x, lastPos.y, lastPos.z + 1);
-
-                        else
-                            cube.transform.position = new Vector3(lastPos.x + 1, lastPos.y, lastPos.z);
-
-                        isRight = !isRight;
-
-                        break;
-
-                    case false:
-                        if (isRight)
-                            cube.transform.position = new Vector3(lastPos.x + 1, 0, lastPos.z);
-
-                        else
-                            cube.transform.position = new Vector3(lastPos.x, 0, lastPos.z + 1);
-
-                        break;
-                }
-
-                cube.transform.parent = p.transform;
-                lastPos = cube.transform.position;
+                cubePlacer.PlaceCube(cubes.Dequeue(), ratio, p.transform);
             }
 
-            var endingPlatform = Cubes.Dequeue();
-            endingPlatform.transform.position =
-                new Vector3(lastPos.x + 3, 0, lastPos.z + 2);
-
-            endingPlatform.transform.parent = p.transform;
+            cubePlacer.TryToPlaceEndingPlatform(endPlatform, p.transform);
         }
-        
+
         public void RecycleCube(CubeController cube, Rigidbody rig)
         {
-            if (!cube.gameObject.tag.Equals("Cube")) return;
-                
+            if (!cube.CompareTag("Cube")) return;
+
             recycledCubes.Enqueue(cube);
             rig.useGravity = false;
             rig.isKinematic = true;
             rig.velocity = Vector3.zero;
+
+            var parent = transform.GetChild(transform.childCount - 1);
+
+
+            cubePlacer.TryToPlaceCube(recycledCubes.Dequeue(), levels[GameManager.Instance.LevelIndex].zigZagRatio,
+                parent);
+
+            cubePlacer.TryToPlaceEndingPlatform(endPlatform, parent);
         }
-        
+
         public void ResetAllCubes()
         {
-            Cubes.Clear();
+            cubes.Clear();
             foreach (Transform cube in transform.GetChild(transform.childCount - 1))
             {
                 cube.GetComponent<CubeController>().StopAllCoroutines();
                 ResetCube(cube.gameObject.GetComponent<CubeController>(), cube.GetComponent<Rigidbody>());
             }
+
+            cubePlacer.Reset(levels[GameManager.Instance.LevelIndex].cubeCount);
         }
-        
+
         private void ResetCube(CubeController cube, Rigidbody rig)
         {
-            Cubes.Enqueue(cube);
+            if (cube.CompareTag("Cube"))
+                cubes.Enqueue(cube);
+
+            if (cube.CompareTag("Finish"))
+                cube.gameObject.SetActive(false);
+
             rig.useGravity = false;
             rig.isKinematic = true;
             rig.velocity = Vector3.zero;
         }
     }
-    
-    
 
 
     [System.Serializable]

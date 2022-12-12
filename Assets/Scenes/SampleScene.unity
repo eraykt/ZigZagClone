@@ -2922,11 +2922,10 @@ MonoBehaviour:
   cubePrefab: {fileID: 2460276099290369079, guid: 531bbdc8e71acc549bde7685f656d879,
     type: 3}
   levels:
-  - cubeCount: 20
+  - cubeCount: 25
     zigZagRatio: 20
     coinCount: 0
     diamondCount: 0
-  currentLevelIndex: 0
 --- !u!1 &1604915716
 GameObject:
   m_ObjectHideFlags: 0
