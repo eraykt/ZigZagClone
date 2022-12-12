@@ -44,7 +44,7 @@ namespace ZigZagClone.Level
             startPlatform =
                 Instantiate(startPlatformPrefab, Vector3.zero, startPlatformPrefab.transform.rotation);
 
-            for (int i = 0; i < 20; i++)
+            for (int i = 0; i < 10; i++)
             {
                 var cube = Instantiate(cubePrefab, Vector3.zero, cubePrefab.transform.rotation);
                 cubes.Enqueue(cube);

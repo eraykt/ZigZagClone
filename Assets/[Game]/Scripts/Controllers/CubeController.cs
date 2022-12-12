@@ -26,16 +26,15 @@ namespace ZigZagClone.Controllers
         {
             rig.useGravity = true;
             rig.isKinematic = false;
+            // rig.AddForce(Vector3.down * 100f);
             StartCoroutine(RecycleCube());
         }
 
         private IEnumerator RecycleCube()
         {
-            yield return new WaitForSeconds(2f);
+            yield return new WaitForSeconds(1f);
             LevelCreator.Instance.RecycleCube(this, rig);
             yield return null;
         }
-        
-        
     }
 }

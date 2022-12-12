@@ -1,3 +1,4 @@
+using DG.Tweening;
 using UnityEngine;
 using ZigZagClone.Controllers;
 
@@ -7,6 +8,8 @@ public class CubePlacer
     private bool isPlacedToRight;
 
     private int cubesToBePlaced;
+
+    private bool isEndingPlatformPlaced;
 
     public CubePlacer(int cubesToBePlaced)
     {
@@ -57,17 +60,32 @@ public class CubePlacer
     public void TryToPlaceEndingPlatform(PlatformController platform, Transform parent)
     {
         if (cubesToBePlaced != 0) return;
+        if (isEndingPlatformPlaced) return;
 
-        platform.transform.position = new Vector3(lastCubePosition.x + 3, 0, lastCubePosition.z + 2);
+        platform.transform.position = new Vector3(lastCubePosition.x + 3, 10, lastCubePosition.z + 2);
         platform.gameObject.SetActive(true);
         platform.transform.parent = parent;
+
+        platform.transform.DOMoveY(0f, 0.25f);
+        isEndingPlatformPlaced = true;
     }
 
     public void TryToPlaceCube(CubeController cube, int ratio, Transform parent)
     {
-        if (cubesToBePlaced == 0) return;
-        
+        if (cubesToBePlaced == 0)
+        {
+            cube.GetComponent<Rigidbody>().useGravity = true;
+            cube.GetComponent<Rigidbody>().isKinematic = false;
+            return;
+        }
+
+        if (GameManager.Instance.IsGameEnded) return;
+
         PlaceCube(cube, ratio, parent);
+
+        cube.transform.position = new Vector3(cube.transform.position.x, 10f, cube.transform.position.z);
+
+        cube.transform.DOMoveY(0f, 0.25f);
     }
 
 
@@ -76,5 +94,6 @@ public class CubePlacer
         lastCubePosition = new Vector3(2, 0, 2);
         isPlacedToRight = true;
         cubesToBePlaced = countCubesToBePlaced;
+        isEndingPlatformPlaced = false;
     }
 }
