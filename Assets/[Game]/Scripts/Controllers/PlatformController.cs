@@ -8,7 +8,7 @@ namespace ZigZagClone.Controllers
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.CompareTag("Player") && isFinishPlatform)
+            if (collision.gameObject.CompareTag("Player") && isFinishPlatform && !GameManager.Instance.IsGameEnded)
                 Invoke(nameof(WinGame), 0.5f);
         }
 
