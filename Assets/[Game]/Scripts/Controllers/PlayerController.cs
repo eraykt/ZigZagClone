@@ -1,4 +1,6 @@
 using UnityEngine;
+using UnityEngine.Serialization;
+using ZigZagClone.Level;
 using ZigZagClone.Movements;
 
 namespace ZigZagClone.Controllers
@@ -8,7 +10,7 @@ namespace ZigZagClone.Controllers
         #region Player Movement Variables
 
         [Header("Speed Variables")] [Range(2f, 5f)] [SerializeField]
-        private float movingSpeed = 2f;
+        private float startingSpeed = 2f;
 
         [Range(5f, 10f)] [SerializeField] private float speedUpFactor = 10f;
         public float CurrentSpeed { get; private set; }
@@ -16,17 +18,17 @@ namespace ZigZagClone.Controllers
         private PlayerMovement playerMover;
 
         #endregion
-        
+
         private const float PlayerPositionY = 0.6872291f;
 
         private void Awake()
         {
-            playerMover = new PlayerMovement(movingSpeed, transform);
+            playerMover = new PlayerMovement(startingSpeed, transform);
         }
 
         private void Start()
         {
-            CurrentSpeed = movingSpeed;
+            ResetPlayer();
         }
 
         private void Update()
@@ -57,9 +59,9 @@ namespace ZigZagClone.Controllers
         {
             if (!GameManager.Instance.IsGameStarted) return;
             if (GameManager.Instance.IsGameEnded) return;
-            
+
             var isFalling = transform.position.y < 0.65f;
-            
+
             if (isFalling)
                 GameManager.Instance.OnLevelEnded(false);
         }
@@ -91,7 +93,9 @@ namespace ZigZagClone.Controllers
             transform.position = new Vector3(0, PlayerPositionY, 0);
             directionEnum = PlayerEnums.Right;
             playerMover.SetDirection(transform.right);
-            CurrentSpeed = movingSpeed;
+            startingSpeed = LevelCreator.Instance.levels[GameManager.Instance.LevelIndex].speed;
+            speedUpFactor = LevelCreator.Instance.levels[GameManager.Instance.LevelIndex].speedUpFactor;
+            CurrentSpeed = startingSpeed;
         }
     }
 }

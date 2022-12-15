@@ -6,7 +6,6 @@ using ZigZagClone.Level;
 
 public class GameManager : Singleton<GameManager>
 {
-    
     public bool IsGameStarted { get; private set; }
     public bool IsGameEnded { get; private set; }
 
@@ -22,7 +21,7 @@ public class GameManager : Singleton<GameManager>
     public PlayerController player;
 
     #endregion
-    
+
     private void Update()
     {
         OnGameStarting();
@@ -64,9 +63,9 @@ public class GameManager : Singleton<GameManager>
         IsGameStarted = false;
 
         player.ResetPlayer();
-        
+
         LevelCreator.Instance.ResetAllCubes();
-        
+
         UiActions.Instance.HandleHomeUi?.Invoke(true);
         UiActions.Instance.HandleInGameUi?.Invoke(false);
         UiActions.Instance.HandleWinGameUi?.Invoke(false);
@@ -80,11 +79,10 @@ public class GameManager : Singleton<GameManager>
         ScoreManager.Instance.ResetCurrentScore();
     }
 
-    
+
     public void NextLevel()
     {
         ResetGame();
         LevelIndex++;
-        
     }
 }

@@ -6,10 +6,11 @@ namespace ZigZagClone.Ui
     public class LoseGameUI : MonoBehaviour
     {
         #region ad panel
-        [Header("Ad Panel")]
-        public Image adPanel;
+
+        [Header("Ad Panel")] public Image adPanel;
         public Button adButton;
         public Button noAdButton;
+
         public void ShowAd()
         {
             //TODO: show ad
@@ -26,22 +27,17 @@ namespace ZigZagClone.Ui
 
 
         #region lose panel
-        [Space]
-        [Header("Lose Panel")]
-        public Image losePanel;
+
+        [Space] [Header("Lose Panel")] public Image losePanel;
         public Button restartButton;
 
-        
+
         public void Restart()
         {
             GameManager.Instance.RestartGame();
-            NoAd(false);
+            NoAd(true);
         }
-        
+
         #endregion
-        
-        
-        
-        
     }
 }

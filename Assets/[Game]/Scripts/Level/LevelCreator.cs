@@ -127,5 +127,10 @@ namespace ZigZagClone.Level
         [Range(0, 100)] public int zigZagRatio;
         public int coinCount;
         public int diamondCount;
+
+        [Header("Speed Variables")] [Range(2f, 5f)]
+        public float speed;
+
+        [Range(5f, 10f)] public float speedUpFactor;
     }
 }
