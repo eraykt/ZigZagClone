@@ -3395,6 +3395,7 @@ MonoBehaviour:
   clickText: {fileID: 1007912921}
   coinText: {fileID: 1604915718}
   diamondText: {fileID: 1672433647}
+  continueButton: {fileID: 49264266}
   animator: {fileID: 1832208609}
 --- !u!1 &1805932228
 GameObject:

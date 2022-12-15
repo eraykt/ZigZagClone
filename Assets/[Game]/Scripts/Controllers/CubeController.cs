@@ -13,14 +13,16 @@ namespace ZigZagClone.Controllers
             rig = GetComponent<Rigidbody>();
         }
 
+        protected float speed;
 
         protected virtual void OnCollisionExit(Collision other)
         {
             if (GameManager.Instance.IsGameEnded) return;
-            
+
             if (other.gameObject.CompareTag("Player"))
             {
-                Invoke(nameof(DropCube), 0.75f - other.gameObject.GetComponent<PlayerController>().CurrentSpeed / 10f);
+                speed = other.gameObject.GetComponent<PlayerController>().CurrentSpeed / 5f;
+                Invoke(nameof(DropCube), 0.5f - speed);
             }
         }
 
@@ -34,7 +36,7 @@ namespace ZigZagClone.Controllers
 
         private IEnumerator RecycleCube()
         {
-            yield return new WaitForSeconds(1f);
+            yield return new WaitForSeconds(1f - speed / 2f);
             LevelCreator.Instance.RecycleCube(this, rig);
             yield return null;
         }

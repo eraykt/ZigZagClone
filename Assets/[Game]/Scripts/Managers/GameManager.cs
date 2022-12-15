@@ -84,5 +84,6 @@ public class GameManager : Singleton<GameManager>
     {
         ResetGame();
         LevelIndex++;
+        LevelCreator.Instance.CreateLevel(LevelIndex);
     }
 }

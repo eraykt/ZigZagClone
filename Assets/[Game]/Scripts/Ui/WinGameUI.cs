@@ -14,17 +14,22 @@ namespace ZigZagClone.Ui
         int coinCount;
         int diamondCount;
 
+        public Button continueButton;
+
         public Animator animator;
 
         private bool isUiUpdated;
 
         private Coroutine updateUiCoroutine;
 
+        private void Awake()
+        {
+            continueButton.onClick.AddListener(NextLevel);
+        }
+
         private void Start()
         {
-            clickText.text = "";
-            coinText.text = "";
-            diamondText.text = "";
+            ResetText();
         }
 
         private void Update()
@@ -94,7 +99,7 @@ namespace ZigZagClone.Ui
                     diamondText.text = diamondCount.ToString();
                     break;
                 }
-                
+
                 else
                 {
                     StopCoroutine(ScoreUpdater());
@@ -103,9 +108,23 @@ namespace ZigZagClone.Ui
             }
         }
 
-        public void NextLevel()
+        private void NextLevel()
         {
-            Debug.Log("next level is on the way");
+            ResetText();
+            GameManager.Instance.NextLevel();
+        }
+
+        private void ResetText()
+        {
+            clickText.text = "";
+            coinText.text = "";
+            diamondText.text = "";
+
+            clickCount = 0;
+            coinCount = 0;
+            
+            isUiUpdated = false;
+            updateUiCoroutine = null;
         }
     }
 }

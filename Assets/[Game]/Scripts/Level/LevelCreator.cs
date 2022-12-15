@@ -36,6 +36,19 @@ namespace ZigZagClone.Level
         {
             firstLevelsCubeCount = levels[0].cubeCount;
             CreateLevelObjects();
+
+            for (int i = 0; i < 10; i++)
+            {
+                var newLevel = new LevelInformation
+                {
+                    cubeCount = levels[i].cubeCount + Random.Range(5, 10),
+                    zigZagRatio = levels[i].zigZagRatio + Random.Range(5, 7),
+                    speed = levels[i].speed + Random.Range(0.2f, 0.5f),
+                    speedUpFactor = levels[i].speedUpFactor - Random.Range(0.2f, 0.5f)
+                };
+
+                levels.Add(newLevel);
+            }
         }
 
 
@@ -128,9 +141,7 @@ namespace ZigZagClone.Level
         public int coinCount;
         public int diamondCount;
 
-        [Header("Speed Variables")] [Range(2f, 5f)]
-        public float speed;
-
-        [Range(5f, 10f)] public float speedUpFactor;
+        [Header("Speed Variables")] public float speed;
+        public float speedUpFactor;
     }
 }
